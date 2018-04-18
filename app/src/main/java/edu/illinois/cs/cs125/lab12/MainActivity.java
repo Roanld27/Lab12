@@ -3,6 +3,9 @@ package edu.illinois.cs.cs125.lab12;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,7 +41,14 @@ public final class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        startAPICall();
+        final Button startAPICall = findViewById(R.id.FINDWEATHER);
+        startAPICall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Log.d(TAG, "Start API button clicked");
+                startAPICall();
+            }
+        });
     }
 
     /**
@@ -64,6 +74,8 @@ public final class MainActivity extends AppCompatActivity {
                         public void onResponse(final JSONObject response) {
                             try {
                                 Log.d(TAG, response.toString(2));
+                                final TextView helloTextView = (TextView) findViewById(R.id.WeatherInfo);
+                                helloTextView.setText(response.toString());
                             } catch (JSONException ignored) { }
                         }
                     }, new Response.ErrorListener() {
